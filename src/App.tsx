@@ -1,26 +1,36 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React, {Component} from 'react';
+import {Login} from "./Login"
+import { MobilMain } from './MobilMain';
+import {proxy} from "./Proxy";
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+export default class App extends Component
+{
+  state = {loggedIn:false,isMobile:false}
+  
+  checkWidth()
+  {
+    this.setState({isMobile: window.innerWidth < 650})
+  }
+  componentDidMount()
+  {
+    this.checkWidth();
+    proxy.addEventListener( "login", () => {this.setState({loggedIn:true}); this.forceUpdate();}, this );
+    window.addEventListener("resize", this.checkWidth.bind(this));
+  }
+  componentWillUnmount()
+  {
+    proxy.removeAllEventListeners( this );
+    window.removeEventListener("resize",this.checkWidth);
+  }
+  render()
+  {
+    return(
+      <div className="app">
+        {this.state.loggedIn?<MobilMain  />:<Login />}
+      </div>
+    );
+    
+  }
+ 
 }
 
-export default App;

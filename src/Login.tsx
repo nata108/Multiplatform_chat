@@ -23,14 +23,20 @@ export class Login extends Component
                 <img src = "logo512.png" width = "256" />
                 {this.state.register &&
                 <TextInput type="text" placeholder="Display Name" value={this.state.displayName}
-                onChange={e => this.setState({displayName: e})}/>
+                onChange={e => this.setState({displayName: e})} onEnter={ () => this.onClick() } autofocus={true}/>
                 }
-                <TextInput type = "email" placeholder = "Email (someone@example.com)" value={this.state.email} onChange={e => {this.setState({email: e}); if(e === "A0QOOJ") this.setState({displayName: "Natabara"});}} />
-                <TextInput type = "password" placeholder = "Password" value={this.state.password} onChange={e => this.setState({password: e})} />
-            <button type = "button" onClick={()=> this.onClick()}>{this.state.register?"Register":"Login"}</button>
+                
+                <TextInput type = "email" placeholder = "Email (someone@example.com)" value={this.state.email} 
+                onChange={e => {this.setState( state => ({ email: e })); if(e === "A0QOOJ"){this.setState( state => ({ displayName: "Natabara"}) ); }}}
+                onEnter={ () => this.onClick() } autofocus={ this.state.register? false : true }  />
+
+                <TextInput type = "password" placeholder = "Password" value={this.state.password} onChange={e => this.setState({password: e})} 
+                onEnter={ () => this.onClick() } autofocus={false} />
+                
+                <button type = "button" onClick={()=> this.onClick()}>{this.state.register?"Register":"Login"}</button>
                 <a href="https://www.google.hu/search?q=privacy">Privacy Policy</a>
                 <p>{ this.state.register ? "Switch back to " : "Have no account yet? Go and " }
-                <a href="" onClick={ e => { e.preventDefault(); this.setState( { register: !this.state.register } ); } }>
+                <a href="" onClick={ e => { e.preventDefault(); this.setState( state => ({ register: !this.state.register }) ); } }>
                 { this.state.register ? "Login" : "Register" }
                 </a>
                 </p>

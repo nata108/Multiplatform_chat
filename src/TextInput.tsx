@@ -14,6 +14,12 @@ export interface TextInputOptions
 export class TextInput extends Component<TextInputOptions>
 {
     state = {value: this.props.value, focus: false};
+
+    static getDerivedStateFromProps(nextProps, prevState){
+
+        return {value: nextProps.value, autofocus: nextProps.autofocus};
+    }
+
     render()
     {
         let attrs = {} as any;
